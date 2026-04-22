@@ -40,7 +40,7 @@ const observer = new IntersectionObserver(function(entries) {
 }, observerOptions);
 
 // Observe all cards and sections
-document.querySelectorAll('.benefit-card, .audience-card, .ecosystem-item').forEach(el => {
+document.querySelectorAll('.benefit-card, .audience-card, .ecosystem-item, .combo-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -56,7 +56,7 @@ function openWhatsApp(message = '') {
 }
 
 // Track button clicks for analytics
-document.querySelectorAll('.btn-primary, .contact-btn').forEach(btn => {
+document.querySelectorAll('.btn-primary, .btn-payment, .contact-btn, .social-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         console.log('Button clicked:', this.textContent);
         // You can add analytics tracking here
@@ -69,9 +69,43 @@ function toggleMobileMenu() {
     nav.classList.toggle('active');
 }
 
-// Form submission handler (if form is added)
+// Form submission handler
 document.addEventListener('DOMContentLoaded', function() {
     console.log('BBORG Intelligence site loaded successfully');
+    
+    // Contact form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Validate form
+            if (!name || !email || !message) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            // Create WhatsApp message with form data
+            const whatsappMessage = `*Novo Contato do Site BBORG Intelligence*\n\nNome: ${name}\nEmail: ${email}\nMensagem: ${message}`;
+            
+            // Send to WhatsApp
+            const phoneNumber = '5511945689816';
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+            
+            // Open WhatsApp
+            window.open(url, '_blank');
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Show success message
+            alert('Mensagem enviada! Você será redirecionado para o WhatsApp.');
+        });
+    }
 });
 
 // Parallax effect on hero section
@@ -81,4 +115,15 @@ window.addEventListener('scroll', function() {
         const scrollPosition = window.pageYOffset;
         hero.style.backgroundPosition = `center ${scrollPosition * 0.5}px`;
     }
+});
+
+// Add animation to price highlights
+document.addEventListener('DOMContentLoaded', function() {
+    const priceHighlights = document.querySelectorAll('.price-highlight');
+    priceHighlights.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'scale(0.9)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
 });
