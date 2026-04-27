@@ -1,266 +1,1102 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBORG Intelligence - IR26 Blindado | Inteligência Fiscal e Financeira</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Imposto de Renda 2026 — BBORG Intelligence</title>
+  <meta name="description" content="Pacote IR26 Blindado com IA, atendimento Manus_io e soluções fiscais BBORG para declarar com segurança."/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #050d1f;
+      --accent: #f5c518;
+      --acc2:   #ffdb4d;
+      --glow:   #1a6cff;
+      --cyan:   #00aaff;
+      --gb:     rgba(255,255,255,0.045);
+      --gbd:    rgba(255,255,255,0.11);
+      --text:   #e8edf5;
+      --muted:  #7a8aaa;
+      --r:      16px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* BG */
+    body::before {
+      content:''; position:fixed; inset:0; z-index:0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 5%,  rgba(26,108,255,.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 85% 85%, rgba(245,197,24,.08) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 55% 45%, rgba(0,170,255,.06) 0%, transparent 50%),
+        var(--navy);
+    }
+    .orb { position:fixed; border-radius:50%; filter:blur(90px); opacity:.09; animation:floatOrb 22s ease-in-out infinite; z-index:0; pointer-events:none; }
+    .o1  { width:550px;height:550px;background:var(--glow);   top:-120px;left:-100px; }
+    .o2  { width:420px;height:420px;background:var(--accent); bottom:-80px;right:-100px; animation-delay:-9s; }
+    .o3  { width:300px;height:300px;background:var(--cyan);   top:45%;left:35%; animation-delay:-5s; }
+    @keyframes floatOrb {
+      0%,100%{transform:translate(0,0)scale(1)}
+      33%{transform:translate(28px,-38px)scale(1.06)}
+      66%{transform:translate(-18px,22px)scale(.96)}
+    }
+
+    /* GLASS */
+    .glass {
+      background:var(--gb);
+      backdrop-filter:blur(22px) saturate(180%);
+      -webkit-backdrop-filter:blur(22px) saturate(180%);
+      border:1px solid var(--gbd);
+      border-radius:var(--r);
+      position:relative; overflow:hidden;
+    }
+    .glass::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+    }
+
+    /* PAGE */
+    .page { position:relative; z-index:1; }
+    .container { max-width:960px; margin:0 auto; padding:0 24px; }
+    .container-wide { max-width:1100px; margin:0 auto; padding:0 24px; }
+
+    /* FLOATING WA */
+    .wa-float {
+      position:fixed;bottom:20px;right:20px;z-index:200;
+      display:flex;align-items:center;gap:10px;
+      padding:13px 22px;border-radius:100px;
+      background:linear-gradient(135deg,#25d366,#128c7e);
+      color:#fff;font-size:13px;font-weight:700;text-decoration:none;
+      letter-spacing:.5px;text-transform:uppercase;
+      box-shadow:0 4px 24px rgba(37,211,102,.4);
+      transition:all .25s;
+    }
+    .wa-float:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(37,211,102,.6);}
+
+    /* NAVBAR */
+    .navbar {
+      position:sticky;top:0;z-index:100;
+      height:64px;padding:0 32px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(5,13,31,.7);
+      backdrop-filter:blur(24px) saturate(160%);
+      -webkit-backdrop-filter:blur(24px) saturate(160%);
+      border-bottom:1px solid var(--gbd);
+    }
+    .nav-brand { display:flex;align-items:center;gap:14px;text-decoration:none; }
+    .nav-logo-img { height:38px;width:auto;filter:drop-shadow(0 0 8px rgba(26,108,255,.5)); }
+    .nav-links { display:flex;gap:28px;list-style:none; }
+    .nav-links a { text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;transition:color .2s; }
+    .nav-links a:hover { color:var(--accent); }
+    .nav-cta {
+      padding:8px 20px;border-radius:100px;
+      border:1px solid rgba(26,108,255,.45);
+      font-size:13px;font-weight:700;color:var(--glow);
+      text-decoration:none;transition:all .2s;white-space:nowrap;
+    }
+    .nav-cta:hover{background:var(--glow);color:#fff;}
+    @media(max-width:600px){.nav-links,.nav-cta{display:none;}}
+
+    /* ALERT BAR */
+    .alert-bar {
+      padding:10px 24px;text-align:center;
+      background:rgba(245,197,24,.07);
+      border-bottom:1px solid rgba(245,197,24,.2);
+      font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.3px;
+    }
+
+    /* ═══════════════════════════════════════
+       BLOCO 1 — HERO / HEADLINE
+    ═══════════════════════════════════════ */
+    .block-hero {
+      padding:90px 24px 80px;
+      text-align:center;
+    }
+    .hero-eyebrow {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 18px;border-radius:100px;
+      background:rgba(26,108,255,.12);border:1px solid rgba(26,108,255,.3);
+      font-size:11px;color:#6ab4ff;letter-spacing:2px;text-transform:uppercase;
+      margin-bottom:28px;font-family:'Orbitron',sans-serif;
+    }
+    .hero-eyebrow span{width:6px;height:6px;border-radius:50%;background:#6ab4ff;animation:blink 2s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .hero-h1 {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(36px,7vw,72px);
+      font-weight:900;line-height:1.05;
+      background:linear-gradient(135deg,#fff 0%,#a0c4ff 45%,var(--accent) 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      margin-bottom:12px;
+    }
+    .hero-h2 {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(18px,3vw,28px);
+      font-weight:700;color:var(--accent);
+      margin-bottom:20px;letter-spacing:1px;
+    }
+    .hero-desc {
+      font-size:17px;color:var(--muted);line-height:1.8;
+      max-width:600px;margin:0 auto 40px;
+    }
+    .hero-btns { display:flex;gap:14px;justify-content:center;flex-wrap:wrap; }
+
+    /* ═══════════════════════════════════════
+       BLOCO 2 — ALERTA / CONTEXTO
+    ═══════════════════════════════════════ */
+    .block-alert { padding:0 24px 72px; }
+    .alert-card {
+      padding:36px 40px;
+      background:rgba(245,197,24,.05);
+      border-color:rgba(245,197,24,.25);
+      text-align:center;
+    }
+    .alert-card .big-title {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(20px,3.5vw,34px);
+      font-weight:900;color:#fff;margin-bottom:10px;
+    }
+    .alert-card .big-title em { color:var(--accent);font-style:normal; }
+    .alert-card p { font-size:16px;color:var(--muted);line-height:1.75;max-width:640px;margin:0 auto 24px; }
+    .alert-bullets {
+      display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:8px;
+    }
+    .alert-bullet {
+      display:flex;align-items:center;gap:10px;
+      padding:12px 20px;border-radius:100px;
+      background:rgba(255,255,255,.04);border:1px solid var(--gbd);
+      font-size:13px;font-weight:600;color:var(--text);
+    }
+    .alert-bullet .ic { font-size:16px; }
+
+    /* ═══════════════════════════════════════
+       BLOCO 3 — O QUE VOCÊ RECEBE
+    ═══════════════════════════════════════ */
+    .block-features { padding:72px 24px; }
+    .block-header { text-align:center;margin-bottom:48px; }
+    .sec-label {
+      font-family:'Orbitron',sans-serif;
+      font-size:10px;font-weight:700;letter-spacing:3px;
+      text-transform:uppercase;color:var(--glow);margin-bottom:10px;
+    }
+    .sec-title {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(22px,3.5vw,34px);font-weight:700;color:#fff;
+      margin-bottom:12px;line-height:1.2;
+    }
+    .sec-desc { font-size:15px;color:var(--muted);line-height:1.75;max-width:560px;margin:0 auto; }
+
+    .grid-4 { display:grid;grid-template-columns:repeat(4,1fr);gap:18px; }
+    @media(max-width:860px){.grid-4{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:480px){.grid-4{grid-template-columns:1fr;}}
+
+    .feat-card { padding:26px;transition:transform .3s,box-shadow .3s; }
+    .feat-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(26,108,255,.14);}
+    .feat-icon {
+      width:46px;height:46px;border-radius:12px;margin-bottom:16px;
+      background:linear-gradient(135deg,rgba(26,108,255,.18),rgba(26,108,255,.04));
+      border:1px solid rgba(26,108,255,.25);
+      display:flex;align-items:center;justify-content:center;font-size:20px;
+    }
+    .feat-card h3{font-size:15px;font-weight:700;margin-bottom:8px;color:#fff;}
+    .feat-card p{font-size:13px;color:var(--muted);line-height:1.65;}
+
+    /* ═══════════════════════════════════════
+       BLOCO 4 — SOBRE
+    ═══════════════════════════════════════ */
+    .block-sobre { padding:72px 24px;background:rgba(255,255,255,.012);border-top:1px solid var(--gbd);border-bottom:1px solid var(--gbd); }
+    .sobre-grid { display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center; }
+    @media(max-width:720px){.sobre-grid{grid-template-columns:1fr;}}
+    .sobre-card { padding:36px; }
+    .sobre-card blockquote {
+      font-size:15px;line-height:1.85;color:#c0cce0;font-style:italic;
+      border-left:3px solid var(--accent);padding-left:20px;margin-bottom:20px;
+    }
+    .sobre-author { font-size:13px;color:var(--muted); }
+    .sobre-author strong { color:var(--accent); }
+    .stats-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    .stat-card { padding:22px;text-align:center; }
+    .stat-n { font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--accent); }
+    .stat-l { font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5; }
+
+    /* ═══════════════════════════════════════
+       BLOCO 5 — PARA QUEM
+    ═══════════════════════════════════════ */
+    .block-paraquem { padding:72px 24px; }
+    .aud-list { display:flex;flex-direction:column;gap:14px;max-width:720px;margin:0 auto; }
+    .aud-item {
+      display:flex;align-items:center;gap:18px;
+      padding:20px 24px;
+      transition:transform .2s;
+    }
+    .aud-item:hover{transform:translateX(4px);}
+    .aud-num {
+      width:40px;height:40px;min-width:40px;border-radius:50%;
+      background:var(--glow);color:#fff;
+      font-weight:900;font-size:16px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .aud-item p { font-size:15px;color:var(--text);line-height:1.65; }
+
+    /* ═══════════════════════════════════════
+       BLOCO 6 — PACOTES (2 lado a lado + 1)
+    ═══════════════════════════════════════ */
+    .block-pacotes { padding:72px 24px;background:rgba(255,255,255,.012);border-top:1px solid var(--gbd);border-bottom:1px solid var(--gbd); }
+
+    .pricing-top { display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px; }
+    .pricing-bot { max-width:480px;margin:0 auto; }
+    @media(max-width:700px){.pricing-top{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto;}}
+
+    .price-card { padding:32px 28px;transition:transform .3s; }
+    .price-card:hover{transform:translateY(-5px);}
+    .price-card.featured {
+      background:rgba(245,197,24,.055);
+      border-color:rgba(245,197,24,.28);
+      box-shadow:0 0 40px rgba(245,197,24,.1);
+    }
+    .price-tag {
+      display:inline-block;padding:4px 12px;border-radius:100px;
+      font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+      font-family:'Orbitron',sans-serif;margin-bottom:14px;
+    }
+    .tag-blue  { background:rgba(26,108,255,.15);color:#6ab4ff; }
+    .tag-gold  { background:rgba(245,197,24,.15);color:var(--accent); }
+    .tag-green { background:rgba(0,200,120,.12); color:#00c878; }
+
+    .price-name { font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;margin-bottom:8px; }
+    .price-desc { font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:20px;min-height:52px; }
+    .price-old  { font-size:13px;color:var(--muted);text-decoration:line-through;display:block;margin-bottom:2px; }
+    .price-val  { font-family:'Orbitron',sans-serif;font-size:36px;font-weight:900;color:var(--accent);margin-bottom:22px; }
+    .price-val span { font-size:16px; }
+    .price-features { list-style:none;margin-bottom:24px; }
+    .price-features li {
+      font-size:13px;color:var(--muted);padding:7px 0;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      display:flex;align-items:center;gap:10px;
+    }
+    .price-features li::before { content:'✓';color:var(--accent);font-weight:700;font-size:11px;flex-shrink:0; }
+
+    /* ═══════════════════════════════════════
+       BLOCO 7 — MANUS_IO
+    ═══════════════════════════════════════ */
+    .block-manus { padding:72px 24px; }
+    .manus-card {
+      padding:48px 40px;text-align:center;
+      background:linear-gradient(135deg,rgba(26,108,255,.07),rgba(0,170,255,.04));
+      border-color:rgba(26,108,255,.25);
+    }
+    .manus-badge {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 20px;border-radius:100px;
+      background:rgba(26,108,255,.15);border:1px solid rgba(26,108,255,.35);
+      font-size:12px;color:#6ab4ff;letter-spacing:1.5px;text-transform:uppercase;
+      margin-bottom:20px;font-family:'Orbitron',sans-serif;
+    }
+    .manus-card h2 {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(24px,4vw,38px);font-weight:900;
+      color:#fff;margin-bottom:16px;
+    }
+    .manus-card h2 em { color:var(--cyan);font-style:normal; }
+    .manus-card p { font-size:16px;color:var(--muted);line-height:1.8;max-width:620px;margin:0 auto 32px; }
+    .manus-features {
+      display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;
+    }
+    .manus-feat {
+      padding:12px 20px;border-radius:100px;
+      background:rgba(255,255,255,.04);border:1px solid var(--gbd);
+      font-size:13px;font-weight:600;color:var(--text);
+    }
+
+    /* ═══════════════════════════════════════
+       BLOCO 8 — SERVIÇOS
+    ═══════════════════════════════════════ */
+    .block-servicos { padding:72px 24px;background:rgba(255,255,255,.012);border-top:1px solid var(--gbd);border-bottom:1px solid var(--gbd); }
+
+    .serv-table { overflow:hidden; }
+    .serv-cat {
+      font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;
+      letter-spacing:3px;text-transform:uppercase;color:var(--glow);
+      padding:16px 24px 8px;
+    }
+    .serv-row {
+      display:grid;grid-template-columns:1fr auto;
+      align-items:center;gap:16px;
+      padding:16px 24px;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      transition:background .2s;
+    }
+    .serv-row:last-child{border-bottom:none;}
+    .serv-row:hover{background:rgba(255,255,255,.03);}
+    .serv-row-name { font-size:14px;font-weight:700;color:#fff;margin-bottom:3px; }
+    .serv-row-desc { font-size:12px;color:var(--muted);line-height:1.55;max-width:560px; }
+    .serv-btns { display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end; }
+    @media(max-width:640px){.serv-row{grid-template-columns:1fr;}.serv-btns{justify-content:flex-start;}}
+
+    .bs { padding:7px 16px;border-radius:100px;font-size:11px;font-weight:700;text-decoration:none;text-transform:uppercase;transition:all .2s;white-space:nowrap; }
+    .bs-p { background:var(--glow);color:#fff; }
+    .bs-p:hover { background:#0055dd;transform:translateY(-1px); }
+    .bs-o { border:1px solid rgba(26,108,255,.4);color:var(--glow); }
+    .bs-o:hover { background:var(--glow);color:#fff; }
+
+    /* ═══════════════════════════════════════
+       BLOCO 9 — ECOSSISTEMA
+    ═══════════════════════════════════════ */
+    .block-eco { padding:72px 24px; }
+    .eco-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:22px; }
+    @media(max-width:700px){.eco-grid{grid-template-columns:1fr;}}
+    .eco-card { padding:32px;text-align:center; }
+    .eco-num {
+      width:48px;height:48px;border-radius:50%;margin:0 auto 16px;
+      background:linear-gradient(135deg,var(--glow),var(--accent));
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Orbitron',sans-serif;font-weight:900;font-size:18px;color:#fff;
+      box-shadow:0 0 20px rgba(26,108,255,.35);
+    }
+    .eco-card h4 { font-size:15px;font-weight:700;margin-bottom:8px; }
+    .eco-card p  { font-size:13px;color:var(--muted);line-height:1.65; }
+
+    /* ═══════════════════════════════════════
+       BLOCO 10 — CONTATO
+    ═══════════════════════════════════════ */
+    .block-contato { padding:72px 24px;background:rgba(255,255,255,.012);border-top:1px solid var(--gbd); }
+    .contato-grid { display:grid;grid-template-columns:1fr .9fr;gap:28px;align-items:start; }
+    @media(max-width:740px){.contato-grid{grid-template-columns:1fr;}}
+
+    .form-card { padding:36px; }
+    .form-group { margin-bottom:18px; }
+    .form-group label { display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:7px;letter-spacing:.8px;text-transform:uppercase; }
+    .form-group input,
+    .form-group textarea {
+      width:100%;padding:12px 16px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--gbd);border-radius:10px;
+      color:var(--text);font-size:14px;font-family:'Inter',sans-serif;
+      outline:none;resize:vertical;transition:border-color .2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color:rgba(26,108,255,.5);background:rgba(255,255,255,.06); }
+    .form-group textarea { min-height:110px; }
+
+    .social-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px; }
+    .social-btn {
+      padding:10px;border-radius:10px;text-align:center;
+      font-size:12px;font-weight:700;text-decoration:none;color:var(--text);
+      background:var(--gb);backdrop-filter:blur(12px);
+      border:1px solid var(--gbd);transition:all .2s;
+    }
+    .social-btn:hover{border-color:rgba(255,255,255,.25);transform:translateY(-2px);}
+
+    .aside-card { padding:32px; }
+    .aside-card h3 { font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;margin-bottom:22px; }
+    .aside-item { display:flex;gap:14px;margin-bottom:18px; }
+    .aside-dot {
+      width:34px;height:34px;min-width:34px;border-radius:50%;
+      background:var(--accent);color:var(--navy);
+      display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;
+    }
+    .aside-item h5 { font-size:14px;font-weight:700;margin-bottom:3px; }
+    .aside-item p  { font-size:12px;color:var(--muted);line-height:1.55; }
+    .aside-footer {
+      border-top:1px solid var(--gbd);padding-top:18px;margin-top:18px;
+      font-size:12px;color:var(--muted);line-height:1.85;
+    }
+    .aside-footer strong { color:var(--text); }
+
+    /* FOOTER */
+    footer { border-top:1px solid var(--gbd);padding:36px 24px;text-align:center; }
+    .ft-brand { font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:#fff;margin-bottom:6px; }
+    .ft-sub   { font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px; }
+    .ft-links { display:flex;justify-content:center;gap:20px;flex-wrap:wrap;list-style:none;margin-bottom:20px; }
+    .ft-links a { font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s; }
+    .ft-links a:hover { color:var(--accent); }
+    .ft-copy { font-size:11px;color:#1e2d45; }
+
+    /* BUTTONS */
+    .btn {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:14px 30px;border-radius:100px;
+      font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+      text-decoration:none;border:none;cursor:pointer;transition:all .25s;
+    }
+    .btn-full { width:100%;justify-content:center; }
+    .btn-signal { background:linear-gradient(135deg,var(--accent),#ff8c00);color:#000;box-shadow:0 4px 20px rgba(245,197,24,.3); }
+    .btn-signal:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(245,197,24,.5);}
+    .btn-primary { background:linear-gradient(135deg,var(--accent),var(--acc2));color:var(--navy);box-shadow:0 4px 24px rgba(245,197,24,.35); }
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 36px rgba(245,197,24,.55);}
+    .btn-outline { border:1px solid rgba(245,197,24,.4);color:var(--accent);background:transparent; }
+    .btn-outline:hover{background:var(--accent);color:var(--navy);}
+    .btn-glass { background:var(--gb);backdrop-filter:blur(12px);border:1px solid var(--gbd);color:var(--text); }
+    .btn-glass:hover{border-color:rgba(255,255,255,.25);transform:translateY(-2px);}
+
+
+    /* ═══════ IMAGENS TRANSPARENTES ═══════ */
+    /* Hero com bg image */
+    .block-hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .block-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url(https://base44.app/api/apps/69ebc7c0d822c21c3c0f837a/files/mp/public/69ebc7c0d822c21c3c0f837a/3d84b77c3_hero_bg.png);
+      background-size: cover;
+      background-position: center 20%;
+      opacity: 0.10;
+      filter: blur(1px) saturate(1.5);
+      transform: scale(1.04);
+      z-index: 0;
+    }
+    .block-hero > * { position: relative; z-index: 1; }
+
+    /* Manus flutuando na hero */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 0;
+    }
+    @media(max-width:760px){
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-manus-img { display: none; }
+    }
+    .hero-manus-img {
+      width: 320px;
+      opacity: 0.55;
+      filter: drop-shadow(0 0 40px rgba(26,108,255,0.5)) drop-shadow(0 0 80px rgba(0,170,255,0.2));
+      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 15%, black 40%, black 75%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 15%, black 40%, black 75%, transparent 100%);
+      pointer-events: none;
+      margin-top: -20px;
+    }
+
+    /* Manus na seção Manus_io — lateral */
+    .manus-inner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 32px;
+    }
+    @media(max-width:760px){
+      .manus-inner { grid-template-columns: 1fr; }
+      .manus-side-img { display: none; }
+    }
+    .manus-side-img {
+      width: 220px;
+      opacity: 0.65;
+      filter: drop-shadow(0 0 30px rgba(0,170,255,0.6)) drop-shadow(0 0 60px rgba(26,108,255,0.3));
+      mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%),
+                  linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    /* Sobre — Manus decorativa no fundo */
+    .block-sobre { position: relative; overflow: hidden; }
+    .block-sobre::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      bottom: -40px;
+      width: 380px;
+      height: 380px;
+      background-image: url(https://base44.app/api/apps/69ebc7c0d822c21c3c0f837a/files/mp/public/69ebc7c0d822c21c3c0f837a/5bebd14ab_manus1.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.055;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .block-sobre > * { position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════
+       BLOCO EU QUERO
+    ═══════════════════════════════════════ */
+    .block-euquero { padding:72px 24px; }
+    .euquero-card {
+      padding:48px 40px;
+      text-align:center;
+      background:linear-gradient(135deg,rgba(26,108,255,.06),rgba(0,170,255,.03));
+      border-color:rgba(26,108,255,.2);
+      max-width:720px;
+      margin:0 auto;
+    }
+    .euquero-card h2 {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(20px,3vw,30px);
+      font-weight:900;color:#fff;
+      margin-bottom:8px;
+    }
+    .euquero-card h2 em { color:var(--cyan);font-style:normal; }
+    .euquero-card .sub {
+      font-size:14px;color:var(--muted);margin-bottom:28px;
+    }
+    .euquero-input-wrap {
+      display:flex;gap:0;
+      border-radius:100px;
+      border:1px solid rgba(26,108,255,.4);
+      background:rgba(255,255,255,.04);
+      overflow:hidden;
+      transition:border-color .2s, box-shadow .2s;
+    }
+    .euquero-input-wrap:focus-within {
+      border-color:rgba(26,108,255,.8);
+      box-shadow:0 0 0 3px rgba(26,108,255,.15);
+    }
+    .euquero-input {
+      flex:1;
+      padding:16px 24px;
+      background:transparent;
+      border:none;
+      outline:none;
+      font-size:15px;
+      color:var(--text);
+      font-family:'Inter',sans-serif;
+    }
+    .euquero-input::placeholder { color:var(--muted); }
+    .euquero-btn {
+      padding:14px 28px;
+      background:linear-gradient(135deg,#25d366,#128c7e);
+      border:none;
+      border-radius:0 100px 100px 0;
+      color:#fff;
+      font-size:13px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:all .2s;
+    }
+    .euquero-btn:hover { background:linear-gradient(135deg,#20ba59,#0d7a6e);transform:scale(1.02); }
+    .euquero-hints {
+      display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;
+    }
+    .euquero-hint {
+      padding:7px 16px;border-radius:100px;
+      background:rgba(255,255,255,.04);border:1px solid var(--gbd);
+      font-size:12px;color:var(--muted);cursor:pointer;
+      transition:all .2s;
+    }
+    .euquero-hint:hover {
+      background:rgba(26,108,255,.12);
+      border-color:rgba(26,108,255,.35);
+      color:var(--text);
+    }
+    @media(max-width:500px){
+      .euquero-input-wrap { border-radius:14px; flex-direction:column; }
+      .euquero-btn { border-radius:0 0 14px 14px; }
+    }
+
+    /* REVEAL */
+    @media(prefers-reduced-motion:no-preference){
+      .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease;}
+      .reveal.visible{opacity:1;transform:translateY(0);}
+    }
+
+    /* DIVIDER */
+    .divider { height:1px;background:linear-gradient(90deg,transparent,var(--gbd),transparent);margin:0 24px; }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <img src="assets/logo_bborg.png" alt="BBORG Intelligence Logo">
-                <div class="logo-text">
-                    <h1>BBORG</h1>
-                    <p>Inteligência Fiscal e Financeira</p>
-                </div>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#sobre">Sobre</a></li>
-                    <li><a href="#pacote">Pacote IR26</a></li>
-                    <li><a href="#contato">Contato</a></li>
-                </ul>
-            </nav>
+
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<!-- FLOATING WA -->
+<a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="wa-float" target="_blank">💬 Falar com Manus</a>
+
+<div class="page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <img class="nav-logo-img" src="https://base44.app/api/apps/69ebc7c0d822c21c3c0f837a/files/mp/public/69ebc7c0d822c21c3c0f837a/21ab78156_logo_bborg.png" alt="BBORG Intelligence"/>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#pacotes">Pacotes</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="nav-cta" target="_blank">Manus_io</a>
+  </nav>
+
+  <!-- ALERT BAR -->
+  <div class="alert-bar">⚠️ O Imposto de Renda 2026 ainda não mudou nada! As novas regras só chegam em MARÇO DE 2027</div>
+
+  <!-- ══════════════════════════════════
+       BLOCO 1 — HERO
+  ══════════════════════════════════ -->
+  <div class="block-hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-eyebrow reveal"><span></span> IR26 — Ano-base 2025</div>
+          <h1 class="hero-h1 reveal">IR26 Blindado</h1>
+          <p class="hero-h2 reveal">Com inteligência fiscal e atendimento da Manus_io.</p>
+          <p class="hero-desc reveal">O teto de R$5.000 vale para a declaração de 2027. Se você teve rendimentos em 2025, o Leão estará esperando. Não arrisque seu CPF.</p>
+          <div class="hero-btns reveal">
+            <a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="btn btn-signal" target="_blank">💬 Fale com Manus</a>
+            <a href="https://mpago.la/2DGKExu" class="btn btn-outline" target="_blank">🛒 Compre já R$147</a>
+          </div>
         </div>
-    </header>
+        <img class="hero-manus-img" src="https://base44.app/api/apps/69ebc7c0d822c21c3c0f837a/files/mp/public/69ebc7c0d822c21c3c0f837a/5bebd14ab_manus1.png" alt="Manus_io"/>
+      </div>
+    </div>
+  </div>
 
-    <section class="hero" id="home">
-        <div class="hero-overlay"></div>
-        <div class="container hero-content">
-            <div class="alert-badge">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>O Imposto de Renda 2026 ainda não mudou nada!</span>
-            </div>
-            <h1>IMPOSTO DE RENDA 2026</h1>
-            <h2 class="highlight">NÃO MUDOU NADA!</h2>
-            <p class="subtitle">As novas regras só chegam em <strong>MARÇO DE 2027</strong></p>
-            <div class="cta-box">
-                <p>Se você teve rendimentos em 2025, o Leão estará esperando por você em 2026. Não arrisque seu CPF.</p>
-            </div>
-            <div class="hero-buttons">
-                <a href="https://wa.me/5511945689816?text=Olá%20Manus_io!%20Gostaria%20de%20saber%20mais%20sobre%20o%20pacote%20IR26%20Blindado" class="btn-primary btn-large" target="_blank">
-                    <i class="fab fa-whatsapp"></i>
-                    FALE COM A MANUS
-                </a>
-                <a href="https://mpago.la/2DGKExu" class="btn-payment btn-large" target="_blank">
-                    <i class="fas fa-shopping-cart"></i>
-                    COMPRE JÁ R$147
-                </a>
-            </div>
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════
+       BLOCO 2 — ALERTA CONTEXTO
+  ══════════════════════════════════ -->
+  <div class="block-alert" style="padding-top:72px;">
+    <div class="container">
+      <div class="glass alert-card reveal">
+        <p class="sec-label">Atenção contribuinte</p>
+        <div class="big-title">Imposto de Renda 2026 —<br/><em>Não Mudou Nada!</em></div>
+        <p>Só vai mudar em Março de 2027. Então se você fez em 2025, é muito provável que esteja obrigado neste ano também. Não espere a última hora.</p>
+        <div class="alert-bullets">
+          <div class="alert-bullet"><span class="ic">📅</span> Declaração 2025 obrigatória em 2026</div>
+          <div class="alert-bullet"><span class="ic">🔄</span> Mudança nas regras apenas em março de 2027</div>
+          <div class="alert-bullet"><span class="ic">⚠️</span> Planeje-se com antecedência</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
 
-    <section class="about" id="sobre">
-        <div class="container">
-            <div class="about-content">
-                <h2>🏛️ Sobre a BBORG Intelligence: Do Chão do Escritório à IA</h2>
-                <p class="intro">"A BBORG Intelligence não nasceu em uma sala de reuniões climatizada, mas sim no 'chão de fábrica' da contabilidade real. Eu, <strong>Ubiratã Soares (Biras_io)</strong>, cresci dentro de um escritório, vendo de perto o peso dos impostos, a burocracia das planilhas e o cansaço nos olhos de quem tenta empreender no Brasil.</p>
-                
-                <p>Eu aprendi a desenrolar o caos fiscal antes mesmo de entender de algoritmos. Essa vivência me deu uma certeza: <strong>o microempreendedor não precisa de mais burocracia, ele precisa de liberdade.</strong></p>
+  <div class="divider" style="margin-top:72px;"></div>
 
-                <p>Hoje, a <strong>Holding BBORG Intelligence</strong> funde essa experiência de vida com o que há de mais avançado em Machine Learning. Nós não vendemos apenas ferramentas; nós entregamos a 'Sócia Tecnológica' que eu gostaria que meu pai tivesse tido lá atrás.</p>
-
-                <div class="about-highlight">
-                    <p><strong>A MEI_IA é o resultado de décadas de contabilidade tradicional lapidadas pela inteligência artificial.</strong> Estamos aqui para <strong>blindar o seu CPF, organizar seu CNPJ</strong> e garantir que você lute na Arena de Vendas com as melhores armas."</p>
-                </div>
-            </div>
+  <!-- ══════════════════════════════════
+       BLOCO 3 — O QUE VOCÊ RECEBE
+  ══════════════════════════════════ -->
+  <div class="block-features">
+    <div class="container">
+      <div class="block-header reveal">
+        <p class="sec-label">O que você recebe</p>
+        <h2 class="sec-title">Pacote IR26 Blindado</h2>
+        <p class="sec-desc">Tecnologia de IA aplicada à sua declaração. Rápido, seguro e sem surpresas.</p>
+      </div>
+      <div class="grid-4 reveal">
+        <div class="glass feat-card">
+          <div class="feat-icon">🧠</div>
+          <h3>Diagnóstico Blindado</h3>
+          <p>A IA aponta pendências e mostra o que precisa ser corrigido antes da malha fina.</p>
         </div>
-    </section>
-
-    <section class="benefits" id="pacote">
-        <div class="container">
-            <h2>O QUE VOCÊ RECEBE NO PACOTE IR26 BLINDADO</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Diagnóstico Blindado</h3>
-                    <p>Nossa IA analisa suas pendências e aponta exatamente o que precisa ser corrigido para evitar a malha fina.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3>Protocolo de Segurança Criptografado</h3>
-                    <p>Seus dados são tratados sob rigorosos padrões de proteção, garantindo total privacidade em cada etapa.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Velocidade Digital</h3>
-                    <p>Chega de esperar dias por uma resposta. O processo inicial é feito via WhatsApp com o atendimento da Manus_io, disponível 24h por dia.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3>Envio Profissional</h3>
-                    <p>Revisão final e transmissão da declaração com a expertise técnica de quem domina o sistema fiscal.</p>
-                </div>
-            </div>
-
-            <div class="package-details">
-                <h3>PACOTE COMBO BBORG IR26</h3>
-                <p>Regularize sua situação fiscal e evite a malha fina com precisão cirúrgica e velocidade recorde.</p>
-                <ul class="package-list">
-                    <li><i class="fas fa-check"></i> Revisão das declarações dos últimos 5 anos</li>
-                    <li><i class="fas fa-check"></i> Retificação se necessário</li>
-                    <li><i class="fas fa-check"></i> Análise técnica de diversos sistemas interligados</li>
-                    <li><i class="fas fa-check"></i> Garantia de precisão com erro zero</li>
-                </ul>
-                <div class="package-buttons">
-                    <a href="https://wa.me/5511945689816?text=Olá%20Manus_io!%20Gostaria%20de%20saber%20mais%20sobre%20o%20pacote%20IR26%20Blindado" class="btn-primary btn-medium" target="_blank">
-                        <i class="fab fa-whatsapp"></i> FALAR COM MANUS_IO
-                    </a>
-                    <a href="https://mpago.la/1WhQHkj" class="btn-payment btn-medium" target="_blank">
-                        <i class="fas fa-shopping-cart"></i> COMPRE JÁ R$567
-                    </a>
-                </div>
-            </div>
+        <div class="glass feat-card">
+          <div class="feat-icon">🔐</div>
+          <h3>Segurança Criptografada</h3>
+          <p>Tratamento cuidadoso dos dados, com privacidade e controle em cada etapa.</p>
         </div>
-    </section>
-
-    <section class="target-audience">
-        <div class="container">
-            <h2>PARA QUEM É ESTE SERVIÇO?</h2>
-            <div class="audience-grid">
-                <div class="audience-card">
-                    <i class="fas fa-user"></i>
-                    <p>Contribuintes Pessoa Física que buscam paz de espírito com o IR26</p>
-                </div>
-                <div class="audience-card">
-                    <i class="fas fa-chart-line"></i>
-                    <p>Quem tem múltiplas fontes de renda, investimentos ou bens e não quer correr riscos</p>
-                </div>
-                <div class="audience-card">
-                    <i class="fas fa-rocket"></i>
-                    <p>Profissionais que não têm tempo a perder e exigem um atendimento tecnológico e direto ao ponto</p>
-                </div>
-            </div>
+        <div class="glass feat-card">
+          <div class="feat-icon">⚡</div>
+          <h3>Velocidade Digital</h3>
+          <p>Atendimento via Manus_io no WhatsApp, 24h por dia, sem espera desnecessária.</p>
         </div>
-    </section>
-
-    <section class="combo-section">
-        <div class="container">
-            <h2>Combo BBORG Intelligence IR26</h2>
-            <div class="combo-card">
-                <h3>5 anos com 20% OFF</h3>
-                <p class="combo-pricing-main">De <span class="price-old">R$735</span> por apenas <span class="price-highlight">R$567</span></p>
-                
-                <ul class="combo-features">
-                    <li><i class="fas fa-check"></i> ✅ Evite multas e problemas com a Receita</li>
-                    <li><i class="fas fa-check"></i> ✅ Atendimento rápido e 100% online</li>
-                    <li><i class="fas fa-check"></i> ✅ Suporte completo do início ao fim</li>
-                    <li><i class="fas fa-check"></i> 📌 Válido para regularização dos últimos 5 anos</li>
-                </ul>
-
-                <div class="combo-buttons">
-                    <a href="https://wa.me/5511945689816?text=Olá%20Manus_io!%20Gostaria%20de%20saber%20mais%20sobre%20o%20pacote%20COMBO%20com%2020%25%20de%20desconto" class="btn-primary btn-medium" target="_blank">
-                        <i class="fab fa-whatsapp"></i> FALAR COM MANUS_IO
-                    </a>
-                    <a href="https://mpago.la/1WhQHkj" class="btn-payment btn-medium" target="_blank">
-                        <i class="fas fa-credit-card"></i> COMPRE JÁ R$587
-                    </a>
-                </div>
-            </div>
+        <div class="glass feat-card">
+          <div class="feat-icon">📤</div>
+          <h3>Envio Profissional</h3>
+          <p>Revisão técnica e transmissão com experiência real no sistema fiscal brasileiro.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
 
-    <section class="contact-section" id="contato">
-        <div class="container">
-            <h2>ENTRE EM CONTATO</h2>
-            <p class="contact-intro">Preencha o formulário abaixo e nossa equipe entrará em contato com você em breve.</p>
-            
-            <div class="contact-wrapper">
-                <form class="contact-form" id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Nome</label>
-                        <input type="text" id="name" name="name" required placeholder="Seu nome completo">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required placeholder="seu@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Mensagem</label>
-                        <textarea id="message" name="message" rows="5" required placeholder="Diga o que você precisa..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary btn-medium">
-                        <i class="fas fa-paper-plane"></i> ENVIAR MENSAGEM
-                    </button>
-                </form>
+  <div class="divider"></div>
 
-                <div class="social-links">
-                    <h3>Nossas Redes</h3>
-                    <div class="social-buttons">
-                        <a href="https://shre.ink/bborg" class="social-btn hotmart-btn" target="_blank" title="Visite a Lojinha do Hotmart">
-                            <i class="fas fa-shopping-bag"></i>
-                            <span>Hotmart</span>
-                        </a>
-                        <a href="https://wa.me/5511945689816?text=Olá%20Manus_io!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20BBORG" class="social-btn whatsapp-btn" target="_blank" title="Fale conosco no WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>WhatsApp</span>
-                        </a>
-                        <a href="https://instagram.com" class="social-btn instagram-btn" target="_blank" title="Siga-nos no Instagram">
-                            <i class="fab fa-instagram"></i>
-                            <span>Instagram</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+  <!-- ══════════════════════════════════
+       BLOCO 4 — SOBRE
+  ══════════════════════════════════ -->
+  <div class="block-sobre" id="sobre">
+    <div class="container">
+      <div class="sobre-grid">
+        <div class="glass sobre-card reveal">
+          <p class="sec-label">Sobre a BBORG Intelligence</p>
+          <h2 class="sec-title" style="font-size:22px;margin-bottom:20px;">Do chão do escritório à IA.</h2>
+          <blockquote>"A BBORG Intelligence nasceu da contabilidade real: planilhas, prazos, impressoras, noites curtas e a pressão de quem precisa cuidar dos impostos no Brasil. Ubiratã Soares cresceu dentro desse ambiente e transformou essa vivência em uma certeza: o microempreendedor não precisa de mais burocracia, precisa de liberdade."</blockquote>
+          <p style="font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:16px;">Hoje, a BBORG une experiência fiscal com Machine Learning para entregar a sócia tecnológica que todo empreendedor gostaria de ter ao lado.</p>
+          <p class="sobre-author">— <strong>Ubiratã Soares (Biras_io)</strong>, Fundador & CEO</p>
         </div>
-    </section>
-
-    <section class="ecosystem">
-        <div class="container">
-            <h2>O ECOSSISTEMA BBORG</h2>
-            <div class="ecosystem-items">
-                <div class="ecosystem-item">
-                    <span class="number">1</span>
-                    <h4>Imposto de Renda</h4>
-                    <p>Declaração blindada com precisão cirúrgica</p>
-                </div>
-                <div class="ecosystem-item">
-                    <span class="number">2</span>
-                    <h4>Tecnologia de Atendimento</h4>
-                    <p>Manus_io - IA de vendas 24/7</p>
-                </div>
-                <div class="ecosystem-item">
-                    <span class="number">3</span>
-                    <h4>Lojinha do Hotmart</h4>
-                    <p>Acesso a produtos e serviços exclusivos</p>
-                </div>
-            </div>
+        <div class="stats-grid reveal">
+          <div class="glass stat-card"><div class="stat-n">5+</div><div class="stat-l">Anos de experiência fiscal</div></div>
+          <div class="glass stat-card"><div class="stat-n">24h</div><div class="stat-l">Atendimento via IA</div></div>
+          <div class="glass stat-card"><div class="stat-n">0</div><div class="stat-l">Erros na declaração</div></div>
+          <div class="glass stat-card"><div class="stat-n">100%</div><div class="stat-l">Online e seguro</div></div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="assets/logo_bborg.png" alt="BBORG Intelligence Logo">
-                    <div>
-                        <h3>BBORG Intelligence</h3>
-                        <p>Inteligência Fiscal e Financeira</p>
-                    </div>
-                </div>
-                <div class="footer-contact">
-                    <p><strong>WhatsApp:</strong> (11) 94568-9816</p>
-                    <p><strong>Desenvolvido por:</strong> Ubiratã Soares</p>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2026 BBORG Intelligence. Todos os direitos reservados. | Consultoria Fiscal com Inteligência Artificial
-            </div>
+  <!-- ══════════════════════════════════
+       BLOCO 5 — PARA QUEM
+  ══════════════════════════════════ -->
+  <div class="block-paraquem">
+    <div class="container">
+      <div class="block-header reveal">
+        <p class="sec-label">Para quem é</p>
+        <h2 class="sec-title">Para quem quer sentar tranquilo.</h2>
+      </div>
+      <div class="aud-list reveal">
+        <div class="glass aud-item"><div class="aud-num">1</div><p>Contribuintes Pessoa Física que buscam paz de espírito com o IR26.</p></div>
+        <div class="glass aud-item"><div class="aud-num">2</div><p>Quem tem múltiplas fontes de renda, investimentos ou bens e não quer correr riscos.</p></div>
+        <div class="glass aud-item"><div class="aud-num">3</div><p>Profissionais sem tempo a perder que exigem atendimento tecnológico e direto ao ponto.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════
+       BLOCO 6 — PACOTES
+  ══════════════════════════════════ -->
+  <div class="block-pacotes" id="pacotes">
+    <div class="container">
+      <div class="block-header reveal">
+        <p class="sec-label">Escolha seu pacote</p>
+        <h2 class="sec-title">Blindagem fiscal com IA e revisão profissional.</h2>
+      </div>
+
+      <!-- 2 lado a lado -->
+      <div class="pricing-top reveal">
+        <div class="glass price-card">
+          <div class="price-tag tag-blue">Principal</div>
+          <div class="price-name">IR26 Blindado</div>
+          <p class="price-desc">Declaração revisada com diagnóstico de risco, segurança de dados e envio profissional.</p>
+          <div class="price-val"><span>R$</span>147</div>
+          <ul class="price-features">
+            <li>Diagnóstico IA de pendências</li>
+            <li>Protocolo de segurança</li>
+            <li>Atendimento WhatsApp 24h</li>
+            <li>Envio e transmissão profissional</li>
+          </ul>
+          <a href="https://mpago.la/2DGKExu" class="btn btn-signal btn-full" target="_blank">Comprar agora</a>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div class="glass price-card featured">
+          <div class="price-tag tag-gold">⭐ 20% OFF</div>
+          <div class="price-name">Combo IR 5 Anos</div>
+          <p class="price-desc">Regularização completa dos últimos 5 anos para evitar multas e pendências com a Receita.</p>
+          <span class="price-old">De R$735</span>
+          <div class="price-val"><span>R$</span>567</div>
+          <ul class="price-features">
+            <li>Revisão dos últimos 5 anos</li>
+            <li>Retificação se necessário</li>
+            <li>Análise de sistemas interligados</li>
+            <li>Garantia erro zero</li>
+            <li>Suporte 100% online</li>
+          </ul>
+          <a href="https://mpago.la/1WhQHkj" class="btn btn-primary btn-full" target="_blank">Comprar agora</a>
+        </div>
+      </div>
+
+      <!-- 1 embaixo centralizado -->
+      <div class="pricing-bot reveal">
+        <div class="glass price-card">
+          <div class="price-tag tag-green">Rápido</div>
+          <div class="price-name">Regularização de CPF</div>
+          <p class="price-desc">Análise objetiva para destravar seu CPF e recuperar sua tranquilidade fiscal.</p>
+          <div class="price-val"><span>R$</span>97</div>
+          <ul class="price-features">
+            <li>Análise de pendências CPF</li>
+            <li>Destravamento fiscal</li>
+            <li>Orientação especializada</li>
+            <li>Atendimento via IA 24h</li>
+          </ul>
+          <a href="https://mpago.la/1aq5abF" class="btn btn-signal btn-full" target="_blank">Comprar agora</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════
+       BLOCO 7 — MANUS_IO
+  ══════════════════════════════════ -->
+  <div class="block-manus">
+    <div class="container">
+      <div class="glass manus-card reveal">
+        <div class="manus-badge">🤖 IA de Atendimento</div>
+        <h2>Conheça a <em>Manus_io</em></h2>
+        <p>A Manus_io é uma IA de atendimento e consultora fiscal que responde dúvidas sobre CPF, CNPJ, MEI, ME, EPP, SLU ou Ltda. Simples Nacional, desenquadramento, enquadramento MEI, ME e Simples — <strong style="color:var(--text)">a sua consultora está aqui, 24h por dia.</strong></p>
+        <div class="manus-features">
+          <div class="manus-feat">📅 Disponível 24h</div>
+          <div class="manus-feat">🧾 CPF & CNPJ</div>
+          <div class="manus-feat">🏢 MEI, ME, Simples</div>
+          <div class="manus-feat">⚡ Resposta imediata</div>
+        </div>
+        <a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="btn btn-signal" target="_blank">💬 Falar com a Manus_io agora</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+
+  <!-- ══════════════════════════════════
+       BLOCO EU QUERO — chama Manus_io
+  ══════════════════════════════════ -->
+  <div class="block-euquero">
+    <div class="container">
+      <div class="glass euquero-card reveal">
+        <h2>Eu quero <em>falar com a Manus</em></h2>
+        <p class="sub">Digite o que você precisa — a Manus_io vai te atender no WhatsApp agora.</p>
+
+        <div class="euquero-input-wrap">
+          <input
+            id="euQueroInput"
+            class="euquero-input"
+            type="text"
+            placeholder="Ex: Quero declarar meu IR26..."
+            maxlength="200"
+          />
+          <button class="euquero-btn" onclick="chamarManus()">
+            💬 Chamar Manus
+          </button>
+        </div>
+
+        <!-- sugestões rápidas clicáveis -->
+        <div class="euquero-hints">
+          <span class="euquero-hint" onclick="preencherHint(this)">Declarar meu IR26</span>
+          <span class="euquero-hint" onclick="preencherHint(this)">Regularizar meu CPF</span>
+          <span class="euquero-hint" onclick="preencherHint(this)">Abrir meu MEI</span>
+          <span class="euquero-hint" onclick="preencherHint(this)">Tenho dívida no Simples</span>
+          <span class="euquero-hint" onclick="preencherHint(this)">Quero o Combo 5 anos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <!-- ══════════════════════════════════
+       BLOCO 8 — SERVIÇOS
+  ══════════════════════════════════ -->
+  <div class="block-servicos" id="servicos">
+    <div class="container-wide">
+      <div class="block-header reveal">
+        <p class="sec-label">Serviços BBORG</p>
+        <h2 class="sec-title">Cada serviço leva para uma página de vendas.</h2>
+        <p class="sec-desc">Escolha a solução fiscal que combina com o seu momento.</p>
+      </div>
+
+      <div class="glass serv-table reveal">
+
+        <div class="serv-cat">Imposto de Renda</div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">IR26 Blindado</div><div class="serv-row-desc">Declaração IR26 com diagnóstico, revisão e envio profissional.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/2DGKExu" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Combo IR 5 Anos</div><div class="serv-row-desc">Regularização dos últimos anos com segurança e precisão.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/1WhQHkj" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Regularização de CPF</div><div class="serv-row-desc">Destrava pendências fiscais e recupera a tranquilidade do contribuinte.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/1aq5abF" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+
+        <div class="serv-cat">MEI</div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Declaração Anual MEI</div><div class="serv-row-desc">DASN para microempreendedores manterem o MEI regularizado.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/2TsQYxP" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Parcelamento de Débitos MEI</div><div class="serv-row-desc">Organização de débitos e orientação para parcelamento correto.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/1yezLhD" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Cadastro de NFs</div><div class="serv-row-desc">Configuração inicial para emissão de notas fiscais.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/24B6WDT" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">NFs Avulsas</div><div class="serv-row-desc">Emissão pontual de nota fiscal para demandas específicas.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/18ERL71" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Abertura / Baixa / Alteração MEI</div><div class="serv-row-desc">Movimentações cadastrais essenciais para manter o MEI correto.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/2HmSZGV" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Regularização Simples MEI</div><div class="serv-row-desc">Correções básicas para tirar o MEI da bagunça fiscal.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/19z9ctc" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Regularização Completa MEI</div><div class="serv-row-desc">Atendimento mais amplo para MEI com múltiplas pendências.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/1zoZ978" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Full MEI</div><div class="serv-row-desc">Mensal: notas fiscais, guias, consultas e acompanhamento recorrente ilimitado. Todas as obrigações inclusas.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/2HRRDbW" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+
+        <div class="serv-cat">Simples Nacional</div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">AAE — Simples Nacional</div><div class="serv-row-desc">Abertura, Alteração e Encerramento de empresas do Simples Nacional.</div></div>
+          <div class="serv-btns"><a href="https://mpago.la/2QnKbGa" class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Parcelamentos</div><div class="serv-row-desc">Organização de parcelamentos para empresas que precisam voltar ao caminho correto.</div></div>
+          <div class="serv-btns"><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Regularização</div><div class="serv-row-desc">Diagnóstico e regularização fiscal conforme a situação da empresa.</div></div>
+          <div class="serv-btns"><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Declaração de ME</div><div class="serv-row-desc">Declaração para Microempresa com orientação e conferência técnica.</div></div>
+          <div class="serv-btns"><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+        <div class="serv-row">
+          <div><div class="serv-row-name">Full ME</div><div class="serv-row-desc">Mensal com todos os serviços juntos e orientação recorrente para manter a operação fiscal em ordem.</div></div>
+          <div class="serv-btns"><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-p" target="_blank">Compre já</a><a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="bs bs-o" target="_blank">Saiba mais</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════
+       BLOCO 9 — ECOSSISTEMA
+  ══════════════════════════════════ -->
+  <div class="block-eco">
+    <div class="container">
+      <div class="block-header reveal">
+        <p class="sec-label">Estrutura</p>
+        <h2 class="sec-title">O Ecossistema BBORG</h2>
+      </div>
+      <div class="eco-grid reveal">
+        <div class="glass eco-card">
+          <div class="eco-num">1</div>
+          <h4>Imposto de Renda</h4>
+          <p>Declaração blindada com precisão cirúrgica.</p>
+        </div>
+        <div class="glass eco-card">
+          <div class="eco-num">2</div>
+          <h4>Área Fiscal — Sua empresa</h4>
+          <p>MEI, Simples Nacional e empresas em movimento.</p>
+        </div>
+        <div class="glass eco-card">
+          <div class="eco-num">3</div>
+          <h4>Lojinha Hotmart</h4>
+          <p>Produtos digitais, soluções e serviços exclusivos da BBORG.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════
+       BLOCO 10 — CONTATO
+  ══════════════════════════════════ -->
+  <div class="block-contato" id="contato">
+    <div class="container">
+      <div class="block-header reveal">
+        <p class="sec-label">Entre em contato</p>
+        <h2 class="sec-title">A equipe BBORG entra em contato com você.</h2>
+      </div>
+      <div class="contato-grid">
+        <div class="glass form-card reveal">
+          <div class="form-group"><label>Nome</label><input type="text" placeholder="Seu nome completo"/></div>
+          <div class="form-group"><label>Email</label><input type="email" placeholder="seu@email.com"/></div>
+          <div class="form-group"><label>Mensagem</label><textarea placeholder="Como posso te ajudar?"></textarea></div>
+          <a href="https://wa.me/5511945689816?text=Ol%C3%A1%2C%20Manus_io.%20Quero%20ajuda%20com%20o%20IR26." class="btn btn-signal btn-full" target="_blank">📨 Enviar mensagem</a>
+          <div class="social-grid">
+            <a href="https://wa.me/5511945689816" class="social-btn" target="_blank">💬 WhatsApp</a>
+            <a href="https://www.instagram.com/" class="social-btn" target="_blank">📸 Instagram</a>
+            <a href="https://www.facebook.com/" class="social-btn" target="_blank">👥 Facebook</a>
+            <a href="https://hotmart.com/" class="social-btn" target="_blank">🛒 Hotmart</a>
+          </div>
+        </div>
+        <div class="glass aside-card reveal">
+          <h3>O Ecossistema BBORG</h3>
+          <div class="aside-item"><div class="aside-dot">1</div><div><h5>Imposto de Renda</h5><p>Declaração blindada com precisão cirúrgica.</p></div></div>
+          <div class="aside-item"><div class="aside-dot">2</div><div><h5>Área Fiscal — Sua empresa</h5><p>MEI, Simples Nacional e empresas em movimento.</p></div></div>
+          <div class="aside-item"><div class="aside-dot">3</div><div><h5>Lojinha Hotmart</h5><p>Produtos digitais e serviços exclusivos da BBORG.</p></div></div>
+          <div class="aside-footer">
+            <strong>BBORG Intelligence</strong><br/>
+            Inteligência Fiscal e Financeira<br/>
+            WhatsApp: (11) 94568-9816<br/>
+            Desenvolvido por: Ubiratã Soares
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="ft-brand">BBORG</div>
+    <div class="ft-sub">Inteligência Fiscal e Financeira</div>
+    <ul class="ft-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#pacotes">Pacotes</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#contato">Contato</a></li>
+      <li><a href="https://hotmart.com/" target="_blank">Hotmart</a></li>
+      <li><a href="https://wa.me/5511945689816" target="_blank">WhatsApp</a></li>
+    </ul>
+    <p class="ft-copy">© 2026 BBORG Intelligence. Todos os direitos reservados. | Consultoria Fiscal com Inteligência Artificial | Desenvolvido por Ubiratã Soares</p>
+  </footer>
+
+</div>
+
+<script>
+
+  // ═══ EU QUERO — chama Manus_io ═══
+  function chamarManus() {
+    // 1. Pega o que o usuário digitou
+    var texto = document.getElementById('euQueroInput').value.trim();
+
+    // 2. Se não digitou nada, usa mensagem padrão
+    if (!texto) {
+      texto = 'Olá, Manus_io. Preciso de ajuda fiscal.';
+    } else {
+      // 3. Monta mensagem com contexto BBORG
+      texto = 'Olá, Manus_io. ' + texto;
+    }
+
+    // 4. Codifica o texto para URL (espaços viram %20 etc)
+    var mensagemCodificada = encodeURIComponent(texto);
+
+    // 5. Monta o link do WhatsApp com a mensagem já preenchida
+    var linkWA = 'https://wa.me/5511945689816?text=' + mensagemCodificada;
+
+    // 6. Abre o WhatsApp em nova aba
+    window.open(linkWA, '_blank');
+  }
+
+  // Atalho: pressionar Enter no campo também chama a Manus
+  document.getElementById('euQueroInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') chamarManus();
+  });
+
+  // Clique nas sugestões preenche o campo
+  function preencherHint(el) {
+    document.getElementById('euQueroInput').value = el.textContent;
+    document.getElementById('euQueroInput').focus();
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
